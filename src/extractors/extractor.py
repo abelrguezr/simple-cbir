@@ -13,13 +13,13 @@ class Extractor:
         self.index = np.array(range(len(self.train_data)))
         self.kmeans = kmeans
 
-        if kmeans == None:
-            self.kmeans = self._cluster_images(n_clusters)
-
         if process_data:
             self.train_data_proc = self._process_data()
 
         self.train_data_proc = utils.load_pickle(processed_data_path+ '/' +self.extractor_type+'/train_data.pkl')
+
+        if kmeans == None:
+            self.kmeans = self._cluster_images(n_clusters)
         
 
     def _cluster_images(self, n_clusters):
@@ -35,7 +35,7 @@ class Extractor:
         for phase in phases:
             data = utils.load_pickle(self.raw_data_path+'/x_' + phase +'.pkl')
             feat = utils.apply_func_to_data(self.extract_features, data)
-            utils.save_pickle(self.processed_data_path + self.extractor_type +'/' + phase + '_data.pkl', feat)   
+            utils.save_pickle(self.processed_data_path + '/' + self.extractor_type +'/' + phase + '_data.pkl', feat)   
 
     def extract_features(self, data):
         raise NotImplementedError
